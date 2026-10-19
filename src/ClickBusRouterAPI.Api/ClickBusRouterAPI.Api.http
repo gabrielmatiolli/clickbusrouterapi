@@ -1,0 +1,39 @@
+@host = http://localhost:5080
+
+### Do acesso do metrô até a bilheteria mais próxima
+POST {{host}}/api/routes
+Content-Type: application/json
+
+{
+  "x": 51.81,
+  "y": 75.81,
+  "destinationQuery": "bilheteria"
+}
+
+### Do estacionamento até um ponto específico
+POST {{host}}/api/routes
+Content-Type: application/json
+
+{
+  "x": 26.5,
+  "y": 73.0,
+  "destinationId": "TIETE-TER-SERVICO-031"
+}
+
+### Mesma coisa via GET
+GET {{host}}/api/routes?x=46&y=80&q=sanitarios
+
+### Destino sem conexões (banho) -> 422
+GET {{host}}/api/routes?x=46&y=80&to=TIETE-TER-SERVICO-018
+
+### Lista de serviços
+GET {{host}}/api/points?type=servico
+
+### Tipos disponíveis em ?type= : entrada | corredor | servico
+GET {{host}}/api/points?type=entrada
+
+### Busca combinada (tipo + nome)
+GET {{host}}/api/points?type=servico&search=sanit
+
+### Tipo inválido -> 400
+GET {{host}}/api/points?type=elevador
